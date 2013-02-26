@@ -54,7 +54,7 @@ application:
 
 ## Examples
 
-For a complete, working example, refer to the [login example](https://github.com/jaredhanson/passport-box/tree/master/examples/login).
+For a complete, working example, refer to the [login example](https://github.com/bluedge/passport-box/tree/master/examples/login).
 
 
 ## Credits
