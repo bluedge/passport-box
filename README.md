@@ -62,7 +62,7 @@ For a complete, working example, refer to the [login example](https://github.com
   - [Nicolas Alessandra](http://github.com/bluedge)
 
 
-## Thakns
+## Thanks
 
   - [Jared Hanson](http://github.com/jaredhanson)
 
