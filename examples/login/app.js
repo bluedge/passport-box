@@ -1,7 +1,7 @@
 var express = require('express')
   , passport = require('passport')
   , util = require('util')
-  , BoxStrategy = require('../../lib/index.js').Strategy;
+  , BoxStrategy = require('passport-box').Strategy;
 
 var BOX_CLIENT_ID = "mv9wfbsgx4q7qebzccctpqad3ovag9mn"
 var BOX_CLIENT_SECRET = "j1LsVEfSxwdDbB7E9Iqhjks6uIWaor8P";
