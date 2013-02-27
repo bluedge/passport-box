@@ -9,6 +9,8 @@ authentication can be easily and unobtrusively integrated into any application o
 framework that supports [Connect](http://www.senchalabs.org/connect/)-style
 middleware, including [Express](http://expressjs.com/).
 
+[![Build Status](https://travis-ci.org/bluedge/passport-box.png?branch=master)](https://travis-ci.org/bluedge/passport-box)
+
 ## Install
 
     $ npm install passport-box
