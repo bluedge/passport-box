@@ -3,8 +3,8 @@ var express = require('express')
   , util = require('util')
   , BoxStrategy = require('passport-box').Strategy;
 
-var BOX_CLIENT_ID = "mv9wfbsgx4q7qebzccctpqad3ovag9mn"
-var BOX_CLIENT_SECRET = "j1LsVEfSxwdDbB7E9Iqhjks6uIWaor8P";
+var BOX_CLIENT_ID = "---your--box--client--id---"
+var BOX_CLIENT_SECRET = "---your--box--client--secret--";
 
 
 // Passport session setup.
