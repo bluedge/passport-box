@@ -41,7 +41,7 @@ accepts these credentials and calls `done` providing a user, as well as
 Use `passport.authenticate()`, specifying the `'box'` strategy, to
 authenticate requests.
 
-For example, as route middleware in an [Express](http://expressjs.com/)
+For example, a routing middleware in an [Express](http://expressjs.com/)
 application:
 
     app.get('/auth/box',
