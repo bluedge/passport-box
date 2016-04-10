@@ -1,6 +1,6 @@
 {
   "name": "passport-box",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "box authentication strategy for Passport.",
   "keywords": ["passport", "box", "box.com", "oauth", "oauth 2.0", "auth", "api", "authentication", "bluedge", "bluedge.co.uk"],
   "repository": {
@@ -24,5 +24,8 @@
   "devDependencies": {
     "vows": "0.6.x"
   },
-  "engines": { "node": ">= 0.4.0" }
+  "engines": {
+    "node": ">= 0.4.0",
+    "npm": ">= 2.x"
+  }
 }

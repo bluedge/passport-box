@@ -3,9 +3,9 @@ var express = require('express')
   , util = require('util')
   , BoxStrategy = require('passport-box').Strategy;
 
-var BOX_CLIENT_ID = "---your--box--client--id---"
-var BOX_CLIENT_SECRET = "---your--box--client--secret--";
-
+var BOX_CLIENT_ID     = process.env.BOX_CLIENT_ID;     // your box client id
+  , BOX_CLIENT_SECRET = process.env.BOX_CLIENT_SECRET; // you box secret
+  , PORT              = process.env.PORT;              // port you registered with box
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -15,11 +15,11 @@ var BOX_CLIENT_SECRET = "---your--box--client--secret--";
 //   have a database of user records, the complete Box profile is
 //   serialized and deserialized.
 passport.serializeUser( function(user, done) {
-	done(null, user);
+  done(null, user);
 });
 
 passport.deserializeUser( function(obj, done) {
-	done(null, obj);
+  done(null, obj);
 });
 
 
@@ -28,45 +28,49 @@ passport.deserializeUser( function(obj, done) {
 //   credentials (in this case, an accessToken, refreshToken, and 37signals
 //   profile), and invoke a callback with a user object.
 passport.use(new BoxStrategy({
-    clientID: BOX_CLIENT_ID,
-    clientSecret: BOX_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:3000/auth/box/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-      
-      // To keep the example simple, the user's Box profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the Box account with a user record in your database,
-      // and return that user instead.
-      return done(null, profile);
-    });
-  }
+  clientID: BOX_CLIENT_ID,
+  clientSecret: BOX_CLIENT_SECRET,
+  callbackURL: 'http://localhost:' + PORT + '/auth/box/callback'
+},
+function(accessToken, refreshToken, profile, done) {
+  // asynchronous verification, for effect...
+  process.nextTick(function () {
+
+    // To keep the example simple, the user's Box profile is returned to
+    // represent the logged-in user.  In a typical application, you would want
+    // to associate the Box account with a user record in your database,
+    // and return that user instead.
+    return done(null, profile);
+  });
+}
 ));
 
-
-
+// Simple route middleware to ensure user is authenticated.
+//   Use this route middleware on any resource that needs to be protected.  If
+//   the request is authenticated (typically via a persistent login session),
+//   the request will proceed.  Otherwise, the user will be redirected to the
+//   login page.
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login')
+}
 
 var app = express();
 
 // configure Express
-app.configure(function() {
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  app.use(express.logger());
-  app.use(express.cookieParser());
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.session({ secret: 'keyboard cat' }));
-  // Initialize Passport!  Also use passport.session() middleware, to support
-  // persistent login sessions (recommended).
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-});
-
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.use(express.logger());
+app.use(express.cookieParser());
+app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(express.session({ secret: 'keyboard cat' }));
+// Initialize Passport!  Also use passport.session() middleware, to support
+// persistent login sessions (recommended).
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(app.router);
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
   res.render('index', { user: req.user });
@@ -85,38 +89,24 @@ app.get('/login', function(req, res){
 //   request.  The first step in Box authentication will involve
 //   redirecting the user to Box.com.  After authorization, Box
 //   will redirect the user back to this application at /auth/box/callback
-app.get('/auth/box',
-  passport.authenticate('box'),
-  function(req, res){
-    // The request will be redirected to Box for authentication, so this
-    // function will not be called.
-  });
+app.get('/auth/box', passport.authenticate('box'));
 
 // GET /auth/box/callback
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/box/callback', 
-  passport.authenticate('box', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
+app.get('/auth/box/callback',
+    passport.authenticate('box', { failureRedirect: '/login' }),
+    function(req, res) {
+      res.redirect('/');
+    });
 
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
 
-app.listen(3000);
-
-
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
-}
+app.listen(PORT, function(){
+  console.log('listening on port', PORT);
+});
