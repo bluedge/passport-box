@@ -9,7 +9,10 @@ authentication can be easily and unobtrusively integrated into any application o
 framework that supports [Connect](http://www.senchalabs.org/connect/)-style
 middleware, including [Express](http://expressjs.com/).
 
+EXPRESS 4.x : Example iw now compatible with expressjs 4
+
 [![Build Status](https://travis-ci.org/bluedge/passport-box.png?branch=master)](https://travis-ci.org/bluedge/passport-box)
+
 
 ## Install
 
@@ -41,7 +44,7 @@ accepts these credentials and calls `done` providing a user, as well as
 Use `passport.authenticate()`, specifying the `'box'` strategy, to
 authenticate requests.
 
-For example, a routing middleware in an [Express](http://expressjs.com/)
+For example, as route middleware in an [Express](http://expressjs.com/)
 application:
 
     app.get('/auth/box',
@@ -56,7 +59,7 @@ application:
 
 ## Examples
 
-For a complete, working example, refer to the [login example](https://github.com/bluedge/passport-box/tree/master/examples/login).
+For a complete, working example with Express 4, refer to the [login example](https://github.com/bluedge/passport-box/tree/master/examples/login).
 
 
 ## Credits

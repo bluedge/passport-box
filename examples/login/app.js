@@ -1,10 +1,16 @@
-var express = require('express')
-  , passport = require('passport')
-  , util = require('util')
-  , BoxStrategy = require('passport-box').Strategy;
+var express 			= require('express');
+var path 				= require('path');
+var logger 				= require('morgan');
+var cookieParser 		= require('cookie-parser');
+var bodyParser			= require('body-parser');
+var passport 			= require('passport');
+var BoxStrategy 		= require('passport-box').Strategy;
+var app 				= express();
 
-var BOX_CLIENT_ID = "---your--box--client--id---"
-var BOX_CLIENT_SECRET = "---your--box--client--secret--";
+
+var BOX_CLIENT_ID 		= "---your--box--client--id---"
+var BOX_CLIENT_SECRET 	= "---your--box--client--secret---";
+
 
 
 // Passport session setup.
@@ -48,24 +54,23 @@ passport.use(new BoxStrategy({
 
 
 
-var app = express();
+
 
 // configure Express
-app.configure(function() {
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  app.use(express.logger());
-  app.use(express.cookieParser());
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.session({ secret: 'keyboard cat' }));
-  // Initialize Passport!  Also use passport.session() middleware, to support
-  // persistent login sessions (recommended).
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-});
+app.use(logger('dev'));
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, '/public')));
 
 
 app.get('/', function(req, res){
