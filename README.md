@@ -9,7 +9,7 @@ authentication can be easily and unobtrusively integrated into any application o
 framework that supports [Connect](http://www.senchalabs.org/connect/)-style
 middleware, including [Express](http://expressjs.com/).
 
-EXPRESS 4.x : Example iw now compatible with expressjs 4
+EXPRESS 4.x : Example is now compatible with expressjs 4
 
 [![Build Status](https://travis-ci.org/bluedge/passport-box.png?branch=master)](https://travis-ci.org/bluedge/passport-box)
 
